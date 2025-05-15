@@ -72,7 +72,7 @@ public class CourseService : ICourseService
     #region GetAllDepartment
     public List<Department> GetAllDepartment()
     {
-        return _departmentRepo.GetAll().OrderBy(d => d.DepartmentName).ToList();
+        return _departmentRepo.GetAll().Where(d => !d.IsDeleted).OrderBy(d => d.DepartmentName).ToList();
     }
     #endregion
 
@@ -168,7 +168,7 @@ public class CourseService : ICourseService
     {
         Course course = _courseRepo.GetById(id)!;
 
-        bool isEnrolled = _enrollRepo.GetAll().Any(e => e.CourseId == id);
+        bool isEnrolled = _enrollRepo.GetAll().Any(e => e.CourseId == id && !e.IsDeleted);
 
         if (isEnrolled)
         {
