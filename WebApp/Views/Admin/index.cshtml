@@ -5,5 +5,75 @@
 
 
 <div>
-    <h1>Welcome!! Admin</h1>
+    <h1 class="fw-bold color-blue">Welcome!! Admin</h1>
+    <hr>
+
+    <div class="card cards p-4">
+        <div class="d-flex gap-3 justify-content-between align-items-center">
+            <h3>Course Details</h3>
+            <div class="d-flex gap-3">
+                <div class="d-flex flex-end search">
+                    <input class="search-input ms-md-4 fs-6" type="text" name="search" placeholder="Search"
+                        id="searchBoxCourse">
+                    <i class="fa-solid fa-magnifying-glass fs-5"></i>
+                </div>
+                <button class="btn p-3 btn-fill" data-bs-toggle="modal" data-bs-target="#addCourse"
+                    onclick="courseModelOpen(0)"><i class="fa fa-plus"></i> <span class="d-sm-inline d-none">New
+                        Course</span> </button>
+            </div>
+        </div>
+        <div class="row" id="courseList">
+            @* course List Loaded here...  *@
+        </div>
+    </div>
 </div>
+
+<!-- Modal for the ADD COURSE Start-->
+<div class="modal fade" id="addCourse">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="courseModelHeading">
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3" id="courseModel">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for the ADD COURSE End-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    let sortOrder = "name_asc";
+    let searchTerm = null;
+    let page = 1;
+    let pageSize = 5;
+
+    $(document).ready(function () {
+        loadCourses();
+    });
+
+    function loadCourses(id, searchTerm, sortOrder, page, pageSize) {
+        $.ajax({
+            url: `/Admin/GetCourses/`,
+            type: "GET",
+            data: {
+                searchTerm: searchTerm,
+                sortOrder: sortOrder,
+                page: page,
+                pagesize: pageSize
+            },
+            success: function (data) {
+                $("#courseList").html(data);
+            },
+            error: function () {
+                $("#courseList").html("<div class='text-danger p-3'>Error loading courses.</div>");
+            }
+        });
+    }
+
+</script>

@@ -12,8 +12,8 @@ using WebApp.Entities.Data;
 namespace WebApp.Entities.Migrations
 {
     [DbContext(typeof(WebAppFinalContext))]
-    [Migration("20250514085628_initialcreate")]
-    partial class initialcreate
+    [Migration("20250515042215_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

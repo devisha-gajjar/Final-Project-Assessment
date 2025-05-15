@@ -66,6 +66,36 @@ public class LoginController : Controller
     }
     #endregion
 
+    #region Registration 
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Register(RegisterViewModel registerViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(registerViewModel);
+        }
+
+        var (isRegister, message) = _loginService.RegisterUser(registerViewModel);
+
+        if (!isRegister)
+        {
+            TempData["error"] = message;
+            return View(registerViewModel);
+        }
+        else
+        {
+            TempData["success"] = message;
+            return RedirectToAction("index", "login");
+        }
+
+    }
+    #endregion
+
     #region Logout
     public IActionResult Logout()
     {

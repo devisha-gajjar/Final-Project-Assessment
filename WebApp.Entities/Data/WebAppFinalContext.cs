@@ -16,6 +16,8 @@ public class WebAppFinalContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Role { get; set; }
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Department> Departments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,6 +56,46 @@ public class WebAppFinalContext : DbContext
             entity.Property(e => e.RoleName)
                 .HasMaxLength(255)
                 .HasColumnName("role_name");
+        });
+
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.Property(e => e.CourseName)
+                .HasMaxLength(255);
+
+            entity.Property(e => e.Content)
+                .HasMaxLength(255);
+
+            entity.HasOne(d => d.Department).WithMany(p => p.Courses)
+                .HasForeignKey(d => d.DepartmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Course_dept_id_fkey");
+
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_on");
+
+            entity.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modified_on");
+        });
+
+        modelBuilder.Entity<Department>(entity =>
+        {
+            entity.Property(e => e.DepartmentName)
+                .HasMaxLength(255);
+
+            entity.Property(e => e.CreatedOn)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_on");
+
+            entity.Property(e => e.ModifiedOn)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("modified_on");
         });
 
     }

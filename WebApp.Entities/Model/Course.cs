@@ -3,21 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Entities.Model;
 
-public class User
+public class Course
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int UserId { get; set; }
-    public string Name { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string? PhoneNumber { get; set; }
-    public string UserName { get; set; } = null!;
-    public string Password { get; set; } = null!;
-    public int RoleId { get; set; }
-    public virtual Role Role { get; set; } = null!;
+    public int CourseId { get; set; }
+    public string CourseName { get; set; }
+    public string Content { get; set; }
+    public int Credit { get; set; }
+    public int DepartmentId { get; set; }
+    public virtual Department Department { get; set; } = null!;
     public bool IsDeleted { get; set; }
     public DateTime CreatedOn { get; set; }
     public string? CreatedBy { get; set; }
     public DateTime ModifiedOn { get; set; }
     public string? ModifiedBy { get; set; }
+
 }

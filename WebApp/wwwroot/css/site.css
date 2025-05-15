@@ -51,3 +51,37 @@ body {
 .color-blue {
   color: #03426d;
 }
+
+.cards {
+  padding: 18px 0 18px 0;
+}
+
+.card {
+  border: none;
+  box-shadow: 0px 5px 15px rgba(100, 100, 100, 0.35);
+}
+
+.search {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgb(161, 161, 159);
+  border-radius: 5px;
+  padding: 15px 40px 15px 9px;
+}
+
+.search .fa-magnifying-glass {
+  position: absolute;
+  top: 17px;
+  right: 10px;
+}
+
+.search-icon {
+  float: right;
+  cursor: pointer;
+  margin-right: 25px;
+  margin-top: -41px;
+}

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApp.Entities.Data;
@@ -11,9 +12,11 @@ using WebApp.Entities.Data;
 namespace WebApp.Entities.Migrations
 {
     [DbContext(typeof(WebAppFinalContext))]
-    partial class WebAppFinalContextModelSnapshot : ModelSnapshot
+    [Migration("20250515044237_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,97 +24,6 @@ namespace WebApp.Entities.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("WebApp.Entities.Model.Course", b =>
-                {
-                    b.Property<int>("CourseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CourseId"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("Credit")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.HasKey("CourseId");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Courses");
-                });
-
-            modelBuilder.Entity("WebApp.Entities.Model.Department", b =>
-                {
-                    b.Property<int>("DepartmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.HasKey("DepartmentId");
-
-                    b.ToTable("Departments");
-                });
 
             modelBuilder.Entity("WebApp.Entities.Model.Role", b =>
                 {
@@ -200,17 +112,6 @@ namespace WebApp.Entities.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebApp.Entities.Model.Course", b =>
-                {
-                    b.HasOne("WebApp.Entities.Model.Department", "Department")
-                        .WithMany("Courses")
-                        .HasForeignKey("DepartmentId")
-                        .IsRequired()
-                        .HasConstraintName("Course_dept_id_fkey");
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("WebApp.Entities.Model.User", b =>
                 {
                     b.HasOne("WebApp.Entities.Model.Role", "Role")
@@ -220,11 +121,6 @@ namespace WebApp.Entities.Migrations
                         .HasConstraintName("User_role_id_fkey");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("WebApp.Entities.Model.Department", b =>
-                {
-                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("WebApp.Entities.Model.Role", b =>

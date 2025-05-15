@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using WebApp.Entities.Model;
 using WebApp.Entities.ViewModel;
 using WebApp.Repositories.IRepositories;
@@ -9,11 +11,13 @@ public class LoginService : ILoginService
 {
     private readonly IUserRepository _userRepo;
     private readonly ICustomService _customService;
+    private readonly IHttpContextAccessor _httpContext;
 
-    public LoginService(IUserRepository userRepo, ICustomService customService)
+    public LoginService(IUserRepository userRepo, ICustomService customService, IHttpContextAccessor httpContext)
     {
         _userRepo = userRepo;
         _customService = customService;
+        _httpContext = httpContext;
     }
 
     #region AuthenticateUser
@@ -52,4 +56,33 @@ public class LoginService : ILoginService
     }
 
     #endregion AuthenticateUser
+
+    #region RegisterUser
+    public (bool isRegister, string message) RegisterUser(RegisterViewModel registerViewModel)
+    {
+        bool userExisting = _userRepo.GetAll().Any(u => u.Email == registerViewModel.Email);
+
+        if (userExisting)
+        {
+            return (false, "You already have an Account!!");
+        }
+        else
+        {
+            User addUser = new()
+            {
+                Name = registerViewModel.Name,
+                UserName = registerViewModel.UserName,
+                Email = registerViewModel.Email,
+                PhoneNumber = registerViewModel.Phone,
+                Password = _customService.Hash(registerViewModel.Password),
+                RoleId = 2,
+                IsDeleted = false,
+            };
+
+            _userRepo.Add(addUser);
+
+            return (true, "Register Successfully!!");
+        }
+    }
+    #endregion
 }

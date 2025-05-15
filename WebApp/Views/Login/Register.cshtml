@@ -1,0 +1,61 @@
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "_Authentication";
+}
+
+@using WebApp.Entities.ViewModel;
+@model RegisterViewModel;
+
+<div class="container d-flex justify-content-center border bg-light my-2" id="loginContainer">
+    <form asp-controller="Login" asp-action="register" method="post" class="w-100 p-5">
+        <h3 class="mb-4 fw-bold fs-2">Welcome,</h3>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="name@example.com" asp-for="Name">
+            <label class="fs-6" asp-for="Name">Name*</label>
+            <span class="user-icon"><i class="fa fa-user text-secondary"></i></span>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="name@example.com" asp-for="UserName">
+            <label class="fs-6" asp-for="UserName">Username*</label>
+            <span class="user-icon"><i class="fa fa-user text-secondary"></i></span>
+            <span class="text-danger" asp-validation-for="UserName"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" placeholder="Phone" pattern="[0-9]{10}" asp-for="Phone">
+            <label asp-for="Phone">Phone</label>
+            <span class="user-icon"><i class="bi bi-telephone-fill text-secondary"></i></span>
+            <span class="text-danger" asp-validation-for="Phone"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" placeholder="name@example.com" asp-for="Email">
+            <label class="fs-6" asp-for="Email">Email address*</label>
+            <span class="user-icon"><i class="bi bi-envelope-fill text-secondary"></i></span>
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control login-password" placeholder="Password" asp-for="Password"
+                    autocomplete="password">
+                <span class="password-toggle-icon"><i class="fa fa-eye text-secondary"></i></span>
+                <label class="fs-6" asp-for="Password">Password*</label>
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control login-password" placeholder="Password" asp-for="ConfirmPass"
+                    autocomplete="password">
+                <span class="password-toggle-icon"><i class="fa fa-eye text-secondary"></i></span>
+                <label class="fs-6" asp-for="ConfirmPass">ConfirmPass*</label>
+                <span class="text-danger" asp-validation-for="ConfirmPass"></span>
+            </div>
+        </div>
+        <button class="btn w-100 fs-6 fs-md-5 btn-fill py-md-2" type="submit">Register</button>
+        <div class="d-flex justify-content-end mt-4 gap-2">
+            <span>Already have an account?</span>
+            <a asp-controller="Login" asp-action="Index" class="text-decoration-none color-blue fw-bold">Login
+                Now</a>
+        </div>
+    </form>
+</div>

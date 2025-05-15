@@ -16,6 +16,7 @@ builder.Services.AddHttpContextAccessor();
 //All Services
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ICustomService, CustomService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 //Db
 builder.Services.AddDbContext<WebAppFinalContext>(options =>
@@ -24,6 +25,8 @@ builder.Services.AddDbContext<WebAppFinalContext>(options =>
 //All Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
