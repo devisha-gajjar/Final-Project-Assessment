@@ -16,14 +16,16 @@ public class CourseService : ICourseService
     private readonly IDepartmentRepository _departmentRepo;
     private readonly ICourseRepository _courseRepo;
     private readonly IEnrollmentRepository _enrollRepo;
+    private readonly IUserRepository _userRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo, IHttpContextAccessor httpContextAccessor, IEnrollmentRepository enrollRepo)
+    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo, IHttpContextAccessor httpContextAccessor, IEnrollmentRepository enrollRepo, IUserRepository userRepo)
     {
         _departmentRepo = departmentRepo;
         _courseRepo = courseRepo;
         _httpContextAccessor = httpContextAccessor;
         _enrollRepo = enrollRepo;
+        _userRepo = userRepo;
     }
 
     #region GetAllCourses
@@ -203,7 +205,7 @@ public class CourseService : ICourseService
     {
         string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
 
-        bool isAlreadyEnroll = _enrollRepo.GetAll().Any(e => e.UserId.ToString() == userId && e.CourseId == courseListViewModel.Id);
+        bool isAlreadyEnroll = _enrollRepo.GetAll().Any(e => e.UserId.ToString() == userId && e.CourseId == courseListViewModel.Id && !e.IsDeleted);
 
         if (isAlreadyEnroll)
         {
@@ -259,6 +261,43 @@ public class CourseService : ICourseService
             _enrollRepo.Update(enrollment);
             return (true, "Course Completed Successfully!!");
         }
+    }
+    #endregion
+
+    #region GetStudentData
+    public List<UserViewModel> GetStudentData(int courseId)
+    {
+        List<Enrollment> enrollments = _enrollRepo.GetAll().Include(e => e.User).Where(e => e.CourseId == courseId && !e.IsDeleted).ToList();
+
+        return enrollments.Select(item => new UserViewModel()
+        {
+            Name = item.User.Name,
+            UserName = item.User.UserName,
+            Email = item.User.Email,
+            EnrollDate = item.CreatedOn,
+        }).ToList();
+    }
+    #endregion
+
+    #region ShowProfile
+    public UserViewModel ShowProfile()
+    {
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        User user = _userRepo.GetAll().FirstOrDefault(c => c.UserId.ToString() == userId)!;
+
+        List<Enrollment> courseList = _enrollRepo.GetAll().Include(c => c.Course).Where(c => c.UserId.ToString() == userId && !c.IsDeleted).ToList();
+
+        return new UserViewModel()
+        {
+            Name = user.Name,
+            UserName = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber ?? "-",
+            RegisterDate = user.CreatedOn,
+            TotalCourse = courseList.Count,
+            TotalCredits = courseList.Sum(c => c.Course.Credit)
+        };
     }
     #endregion
 }

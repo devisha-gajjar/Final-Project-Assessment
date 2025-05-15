@@ -18,7 +18,7 @@ public class AddCourseViewModel
 
     [Required(ErrorMessage = "Content is required.")]
     [StringLength(200, ErrorMessage = "Content cannot exceed 200 characters.")]
-    [RegularExpression(@"^[A-Za-z]+(?:\s[A-Za-z]+)*$", ErrorMessage = "Content can only contain letters.")]
+    [RegularExpression(@"^[#.0-9a-zA-Z\s,-]+$", ErrorMessage = "Content can only contain letters.")]
     public string Content { get; set; } = null!;
 
     [Required(ErrorMessage = "Credit selection is required.")]

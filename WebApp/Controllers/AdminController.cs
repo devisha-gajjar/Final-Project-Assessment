@@ -36,6 +36,11 @@ public class AdminController : Controller
     #region GetCourseModal
     public IActionResult GetCourse(int courseId)
     {
+        if (courseId < 0)
+        {
+            return Json(new { success = false, message = "Invalid ID. It must be a positive integer!!" });
+        }
+
         AddCourseViewModel model = new()
         {
             DepartmentList = _courseService.GetAllDepartment().Select(c => new SelectListItem
@@ -48,11 +53,6 @@ public class AdminController : Controller
         if (courseId != 0)
         {
             model = _courseService.GetCourse(courseId);
-        }
-        else
-        {
-            TempData["error"] = "Invalid CourseId";
-            return PartialView("_addCourse", model);
         }
         return PartialView("_addCourse", model);
     }
@@ -108,6 +108,14 @@ public class AdminController : Controller
         {
             return Json(new { success = true, message });
         }
+    }
+    #endregion
+
+    #region GetStudentData
+    public IActionResult GetStudentData(int courseId)
+    {
+        List<UserViewModel> userViewModels = _courseService.GetStudentData(courseId);
+        return PartialView("_studentList", userViewModels);
     }
     #endregion
 }

@@ -60,29 +60,6 @@ public class CustomService : ICustomService
 
         return tokenHandler.WriteToken(token);
     }
-
-    // public string ValidateToken(string token)
-    // {
-    //     JwtSecurityTokenHandler tokenHandler = new();
-    //     byte[] key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]!);
-
-    //     TokenValidationParameters validationParameters = new()
-    //     {
-    //         ValidateIssuerSigningKey = true,
-    //         IssuerSigningKey = new SymmetricSecurityKey(key),
-    //         ValidateIssuer = false,
-    //         ValidateAudience = false,
-    //         ClockSkew = TimeSpan.Zero
-    //     };
-
-    //     ClaimsPrincipal? principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-
-    //     if (principal.HasClaim(c => c.Type == ClaimTypes.Email))
-    //     {
-    //         return principal.Claims.Where(c => c.Type == ClaimTypes.Email).First().Value;
-    //     }
-    //     return "not found";
-    // }
     #endregion Token
 
 }

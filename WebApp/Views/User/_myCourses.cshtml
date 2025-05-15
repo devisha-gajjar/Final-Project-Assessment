@@ -15,17 +15,8 @@
                     <th>Id</th>
                     <th>
                         <label class="custom-control-label ms-4">Name</label>
-                        @* <button type="button" class="btn sortable-column-course p-0" data-order="@(Model.SortOrder == "name_asc" ? "name_asc" :
-                                "name_desc")">
-                            <i class=" fa-solid fa-sort"></i>
-                        </button> *@
                     </th>
-                    <th><label class="custom-control-label">Department Name</label>
-                        @* <button type="button" class="btn sortable-column-course p-0"
-                            data-order="@(Model.SortOrder == "dpname_asc" ? "dpname_asc" : "dpname_desc")">
-                            <i class=" fa-solid fa-sort"></i>
-                        </button> *@
-                    </th>
+                    <th><label class="custom-control-label">Department Name</label> </th>
                     <th class="text-center">Credit</th>
                     <th class="text-end pe-5 me-5">Action</th>
                 </tr>
@@ -62,40 +53,4 @@
             </tbody>
         </table>
     </div>
-    @* <div class="d-flex justify-content-end">
-        <div class="d-flex flex-sm-row flex-column gap-2">
-            <div class="d-flex align-items-center justify-content-end gap-2">
-                <span>Items Per Page</span>
-                <select id="pageSizeSelectorCourse" class="form-select w-auto">
-                    <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
-                    <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
-                    <option value="15" selected="@(Model.PageSize == 15 ? "selected" : null)">15</option>
-                    <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
-                </select>
-            </div>
-            @{
-                int startRecord = (Model.PageIndex - 1) * Model.PageSize + 1;
-                int endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalItems);
-            }
-
-            <div class="d-flex align-items-center gap-2">
-                <span>Showing @startRecord – @endRecord of @Model.TotalItems</span>
-
-                <!-- Previous Page Button -->
-                <i class="fa fa-less-than btn border-black p-2 px-3 pagination-link-course @(Model.HasPreviousPage ? "" : "disabled")"
-                    data-page="@(Model.PageIndex - 1)"></i>
-
-                <!-- Next Page Button -->
-                <i class="fa fa-greater-than btn border-black p-2 px-3 pagination-link-course @(Model.HasNextPage ? "" : "disabled")"
-                    data-page="@(Model.PageIndex + 1)"></i>
-            </div>
-        </div>
-    </div> *@
 </div>
-
-
-<script>
-    function back() {
-        loadCourses();
-    }
-</script>

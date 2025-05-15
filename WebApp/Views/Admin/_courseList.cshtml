@@ -32,7 +32,7 @@
                 {
                     <tr>
                         <td>@course.Id</td>
-                        <td>
+                        <td data-bs-target="#courseDetails" data-bs-toggle="modal" onclick="showStudents(@course.Id);">
                             <div class="custom-control custom-checkbox">
                                 <label class="custom-control-label ms-4">
                                     <span>@course.CourseName</span>
@@ -106,6 +106,21 @@
             dataType: "html",
             success: function (response) {
                 $('#courseModel').html(response);
+            },
+            error: function (error) {
+                toastr.error(error);
+            }
+        });
+    }
+
+    function showStudents(courseId) {
+        $.ajax({
+            url: "/Admin/GetStudentData",
+            type: "GET",
+            data: { courseId },
+            dataType: "html",
+            success: function (response) {
+                $('#courseDetailsModel').html(response);
             },
             error: function (error) {
                 toastr.error(error);

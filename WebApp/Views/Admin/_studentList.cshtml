@@ -1,0 +1,33 @@
+@using WebApp.Entities.ViewModel;
+@model List<UserViewModel>;
+
+
+<table id="courseTable" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username </th>
+            <th>Email </th>
+            <th>Enroll Date </th>
+        </tr>
+    </thead>
+    <tbody class="table-body-style">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>@item.EnrollDate</td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-danger text-center">
+                    No Students Enrolled
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

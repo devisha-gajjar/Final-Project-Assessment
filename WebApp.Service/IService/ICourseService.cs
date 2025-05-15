@@ -16,4 +16,6 @@ public interface ICourseService
     public (bool isEnroll, string message) EnrollCourse(CourseListViewModel courseListViewModel);
     public List<CourseListViewModel> GetMyCourses();
     public (bool IsCompleted, string message) CompleteCourse(int id);
+    public List<UserViewModel> GetStudentData(int courseId);
+    public UserViewModel ShowProfile();
 }

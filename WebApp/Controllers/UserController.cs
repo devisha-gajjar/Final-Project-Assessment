@@ -76,4 +76,12 @@ public class UserController : Controller
         }
     }
     #endregion
+
+    #region ShowProfile
+    public IActionResult ShowProfile()
+    {
+        UserViewModel userViewModel = _courseService.ShowProfile();
+        return PartialView("_myProfile", userViewModel);
+    }
+    #endregion
 }

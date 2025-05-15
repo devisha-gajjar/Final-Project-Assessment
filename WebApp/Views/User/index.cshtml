@@ -6,8 +6,11 @@
 <div>
     <div class="d-flex justify-content-between">
         <h1 class="fw-bold color-blue">Welcome!! User</h1>
-        <button class=" d-flex justify-content-center align-items-center gap-2 btn btn-border fw-bold"
-            onclick="myCourse();"><i class="bi bi-text-indent-right"></i> My Courses</button>
+        <div class="d-flex gap-3">
+            <button class=" d-flex justify-content-center align-items-center gap-2 btn btn-border fw-bold"
+                onclick="myCourse();"><i class="bi bi-text-indent-right"></i> My Courses</button>
+            <button class="btn btn-fill" onclick="showProfile();"><i class="bi bi-person-circle"></i></button>
+        </div>
     </div>
 </div>
 <hr>
@@ -50,7 +53,7 @@
 <!-- Modal for the COMPLETE COURSE Start -->
 <div class="modal fade" id="completeCourse" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel"> Complete Confirmation</h1>
@@ -141,8 +144,8 @@
             url: `/User/MyCourses/`,
             type: "GET",
             success: function (data) {
-                $('.search').remove();
-                $('#courseHeading').remove();
+                $('.search').addClass('d-none');
+                $('#courseHeading').addClass('d-none');
                 $("#courseList").html(data);
             },
             error: function () {
@@ -170,5 +173,26 @@
                 }
             });
         });
+    }
+
+    function showProfile() {
+        $.ajax({
+            url: `/User/ShowProfile/`,
+            type: "GET",
+            success: function (data) {
+                $('.search').addClass('d-none');
+                $('#courseHeading').addClass('d-none');
+                $("#courseList").html(data);
+            },
+            error: function () {
+                $("#courseList").html("<div class='text-danger p-3'>Error loading courses.</div>");
+            }
+        });
+    }
+
+    function back() {
+        $('.search').removeClass('d-none');
+        $('#courseHeading').removeClass('d-none');
+        loadCourses();
     }
 </script>

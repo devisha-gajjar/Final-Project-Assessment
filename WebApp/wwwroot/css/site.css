@@ -102,6 +102,7 @@ body {
   font-size: 40px;
 }
 
-.bi.bi-text-indent-right {
+.bi.bi-text-indent-right,
+.bi.bi-person-circle {
   font-size: 25px;
 }

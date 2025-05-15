@@ -1,0 +1,50 @@
+@using WebApp.Entities.ViewModel;
+@model UserViewModel;
+
+<div class="d-flex justify-content-between px-5">
+    <h2 class="mb-2 text-center color-blue">My Profile</h2>
+    <button class="btn btn-fill" onclick="back();">Back</button>
+</div>
+
+<div class="row p-5">
+    <table id="courseTable" class="table table-hover">
+        <tbody class="table-body-style">
+            <tr>
+                <td class="fw-bold w-25"><span>Name </span>
+                </td>
+                <td> <span>@Model.Name</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Username </span>
+                </td>
+                <td> <span>@Model.UserName</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Email </span>
+                </td>
+                <td> <span>@Model.Email</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>PhoneNumber </span>
+                </td>
+                <td> <span>@Model.PhoneNumber</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Total Enrolled Courses </span>
+                </td>
+                <td> <span>@Model.TotalCourse</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Total Credit </span>
+                </td>
+                <td> <span>@Model.TotalCredits</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -23,13 +23,31 @@
             <div class="container-fluid">
                 <span class="navbar-brand">Student Management</span>
             </div>
-            <a asp-controller="Login" asp-action="Logout" class="btn btn-fill mx-5">Logout</a>
+            <button data-bs-toggle="modal" data-bs-target="#logout"
+                class="btn btn-fill mx-5 text-decoration-none">Logout</button>
         </nav>
     </header>
     <div class="container-fluid px-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <div class="modal fade" id="logout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">x
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation color-warning"></i>
+                    <span class="fw-bold">Are you sure you want to Logout?</span>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a asp-controller="login" asp-action="Logout"><button type="button"
+                            class="btn btn-fill px-3">YES</button></a>
+                    <button type="button" class="btn btn-border px-3" data-bs-dismiss="modal">NO</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
