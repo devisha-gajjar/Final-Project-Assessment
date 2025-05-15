@@ -1,0 +1,14 @@
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\bin\Debug\net7.0\WebApp.Entities.deps.json
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\bin\Debug\net7.0\WebApp.Entities.runtimeconfig.json
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\bin\Debug\net7.0\WebApp.Entities.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\bin\Debug\net7.0\WebApp.Entities.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.csproj.AssemblyReference.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.AssemblyInfoInputs.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.AssemblyInfo.cs
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.csproj.CoreCompileInputs.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\refint\WebApp.Entities.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\WebApp.Entities.genruntimeconfig.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Entities\obj\Debug\net7.0\ref\WebApp.Entities.dll

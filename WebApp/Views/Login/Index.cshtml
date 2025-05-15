@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "_Authentication";
+}
+@model WebApp.Entities.ViewModel.LoginViewModel;
+
+<div class="container d-flex justify-content-center border py-5 bg-light my-5" id="loginContainer">
+    <form asp-controller="Login" asp-action="index" method="post" class="w-100 p-5">
+        <h3 class="mb-4 fw-bold fs-2">Welcome,</h3>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" placeholder="name@example.com" asp-for="Email">
+            <label class="fs-6" asp-for="Email">Email address*</label>
+            <span class="user-icon"><i class="fa fa-user text-secondary"></i></span>
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control login-password" placeholder="Password" asp-for="Password"
+                    autocomplete="password">
+                <span class="password-toggle-icon"><i class="fa fa-eye text-secondary"></i></span>
+                <label class="fs-6" asp-for="Password">Password*</label>
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <button class="btn w-100 fs-6 fs-md-5 btn-fill py-md-2" type="submit">Login</button>
+    </form>
+</div>

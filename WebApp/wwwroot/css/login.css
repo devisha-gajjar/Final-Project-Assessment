@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'roboto', sans-serif;
+}
+
+.user-icon,
+.password-toggle-icon {
+    float: right;
+    cursor: pointer;
+    color: #6d6c6c !important;
+    font-size: 20px;
+    margin-right: 26px;
+    margin-top: -44px;
+}
+
+.btn-fill {
+    background-color: #125a8a;
+    border-color: #125a8a;
+    color: white;
+}
+
+.btn-border {
+    background-color: #ffffff;
+    border-color: #125a8a;
+    color: #125a8a;
+}
+
+.btn-fill:hover {
+    background-color: #03426d;
+    color: white;
+}
+
+.btn-border:hover {
+    background-color: #125a8a;
+    border-color: #125a8a;
+    color: #ffffff;
+}
+
+.color-blue {
+    color: #03426d;
+}
+
+.login-main-container {
+    background-color: #d5d5d6;
+}
+
+#loginContainer {
+    width: 35%;
+    box-shadow: 8px 11px 35px 0px rgba(92, 86, 86, 0.75);
+}

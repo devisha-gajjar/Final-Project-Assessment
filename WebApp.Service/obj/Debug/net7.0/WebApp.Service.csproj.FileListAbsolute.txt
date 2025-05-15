@@ -1,0 +1,17 @@
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Service.deps.json
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Service.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Service.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Entities.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Repositories.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Repositories.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Service\bin\Debug\net7.0\WebApp.Entities.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.csproj.AssemblyReference.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.AssemblyInfoInputs.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.AssemblyInfo.cs
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.csproj.CoreCompileInputs.cache
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.csproj.CopyComplete
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\refint\WebApp.Service.dll
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\WebApp.Service.pdb
+D:\Devisha Gajjar\AssessMent\WebApp.Service\obj\Debug\net7.0\ref\WebApp.Service.dll
