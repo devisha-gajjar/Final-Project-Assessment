@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QJK4/ZREVqmRWy/94CeoTclCUTC/ayZ99Ti2FgfL27l4Bt+Ud/Ems6mAfmE4pz1g4ntTaz0XQJhdP/drNcKLMQ==",
+  "dgSpecHash": "2GCESSuST8SiHivXh3vafrUJp6CmtSFnLOp3NiKXwBlyZqVmq2nyewkumWcr4aMONvwl5pFaFhR7FilNg4zJEg==",
   "success": true,
-  "projectFilePath": "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Entities\\WebApp.Entities.csproj",
+  "projectFilePath": "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Entities\\WebApp.Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pctr23\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pctr23\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.3.0\\microsoft.aspnetcore.antiforgery.2.3.0.nupkg.sha512",

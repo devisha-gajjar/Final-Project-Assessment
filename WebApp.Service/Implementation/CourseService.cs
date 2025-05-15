@@ -1,3 +1,7 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebApp.Entities.Model;
 using WebApp.Entities.ViewModel;
 using WebApp.Repositories.IRepositories;
@@ -10,13 +14,16 @@ public class CourseService : ICourseService
 {
     private readonly IDepartmentRepository _departmentRepo;
     private readonly ICourseRepository _courseRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo)
+    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo, IHttpContextAccessor httpContextAccessor)
     {
         _departmentRepo = departmentRepo;
         _courseRepo = courseRepo;
+        _httpContextAccessor = httpContextAccessor;
     }
 
+    #region GetAllCourses
     public PaginatedList<CourseListViewModel> GetAllCourses(string searchTerm, string sortOrder, int page, int pageSize)
     {
         IQueryable<Course> courses = _courseRepo.GetCourseBySearch(searchTerm);
@@ -54,4 +61,118 @@ public class CourseService : ICourseService
             SortOrder = sortOrder
         };
     }
+    #endregion
+
+
+    #region GetAllDepartment
+    public List<Department> GetAllDepartment()
+    {
+        return _departmentRepo.GetAll().OrderBy(d => d.DepartmentName).ToList();
+    }
+    #endregion
+
+    #region AddCourse
+    public (bool isAdd, string message) AddCourse(AddCourseViewModel addCourseViewModel)
+    {
+        bool duplicateCourse = _courseRepo.GetAll().Any(m => m.CourseName.ToLower() == addCourseViewModel.CourseName.ToLower() && !m.IsDeleted);
+
+        if (duplicateCourse)
+        {
+            return (false, "Duplicate Course Name!!");
+        }
+
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        Course course = new()
+        {
+            CourseName = addCourseViewModel.CourseName,
+            Content = addCourseViewModel.Content,
+            Credit = addCourseViewModel.Credit,
+            DepartmentId = addCourseViewModel.DeptId,
+            CreatedOn = DateTime.Now,
+            CreatedBy = userId
+        };
+
+        _courseRepo.Add(course);
+        return (true, "Course Added Successfully!!");
+    }
+    #endregion
+
+    #region GetCourse
+    public AddCourseViewModel GetCourse(int courseId)
+    {
+        Course course = _courseRepo.GetAll().FirstOrDefault(c => c.CourseId == courseId)!;
+
+        AddCourseViewModel addCourseViewModel = new()
+        {
+            Id = course.CourseId,
+            CourseName = course.CourseName,
+            Credit = course.Credit,
+            DeptId = course.DepartmentId,
+            Content = course.Content,
+            DepartmentList = GetAllDepartment().Select(c => new SelectListItem
+            {
+                Value = c.DepartmentId.ToString(),
+                Text = c.DepartmentName
+            }).ToList()
+        };
+
+        return addCourseViewModel;
+    }
+    #endregion
+
+    #region UpdateCourse
+    public (bool isUpdate, string message) UpdateCourse(AddCourseViewModel addCourseViewModel)
+    {
+        Course course = _courseRepo.GetById(addCourseViewModel.Id)!;
+
+        if (course.CourseName != addCourseViewModel.CourseName)
+        {
+            if (course.CourseName.ToLower() == addCourseViewModel.CourseName.ToLower())
+            {
+                course.CourseName = addCourseViewModel.CourseName;
+            }
+            else
+            {
+                bool duplicateCourse = _courseRepo.GetAll().Any(m => m.CourseName.ToLower() == addCourseViewModel.CourseName.ToLower() && !m.IsDeleted);
+
+                if (duplicateCourse)
+                {
+                    return (false, "Duplicate Course Name!!");
+                }
+            }
+        }
+
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        course.CourseName = addCourseViewModel.CourseName;
+        course.Content = addCourseViewModel.Content;
+        course.Credit = addCourseViewModel.Credit;
+        course.DepartmentId = addCourseViewModel.DeptId;
+        course.ModifiedOn = DateTime.Now;
+        course.ModifiedBy = userId;
+
+        _courseRepo.Update(course);
+        return (true, "Course Updated Successfully!!");
+    }
+
+    #endregion
+
+    #region DeleteCourse
+    public (bool isDelete, string message) DeleteCourse(int id)
+    {
+        Course course = _courseRepo.GetById(id)!;
+
+        // if (table.Status == "Running" || table.Status == "Assigned")
+        // {
+        //     return (false, 0);
+        // }
+
+        course.IsDeleted = true;
+
+        _courseRepo.Update(course);
+
+        return (true, "Course Deleted Succesfully!!");
+    }
+    #endregion
 }

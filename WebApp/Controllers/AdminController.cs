@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using WebApp.Entities.Model;
 using WebApp.Entities.ViewModel;
 using WebApp.Service.Helper;
 using WebApp.Service.IService;
@@ -34,12 +36,24 @@ public class AdminController : Controller
     #region GetCourseModal
     public IActionResult GetCourse(int courseId)
     {
-        AddCourseViewModel model = new();
+        AddCourseViewModel model = new()
+        {
+            DepartmentList = _courseService.GetAllDepartment().Select(c => new SelectListItem
+            {
+                Value = c.DepartmentId.ToString(),
+                Text = c.DepartmentName
+            }).ToList()
+        };
 
-        // if (id != 0)
-        // {
-        //     model = _courseService.GetSection(id);
-        // }
+        if (courseId != 0)
+        {
+            model = _courseService.GetCourse(courseId);
+        }
+        else
+        {
+            TempData["error"] = "Invalid CourseId";
+            return PartialView("_addCourse", model);
+        }
         return PartialView("_addCourse", model);
     }
     #endregion
@@ -47,29 +61,52 @@ public class AdminController : Controller
     #region AddEditCourse
     public IActionResult AddEditCourse([FromForm] AddCourseViewModel addCourseViewModel)
     {
+        addCourseViewModel.DepartmentList = _courseService.GetAllDepartment().Select(c => new SelectListItem
+        {
+            Value = c.DepartmentId.ToString(),
+            Text = c.DepartmentName
+        }).ToList();
+
         if (!ModelState.IsValid)
             return PartialView("_addCourse", addCourseViewModel);
         else if (addCourseViewModel.Id == 0)
         {
-            // bool (addCategory, message) = _courseService.AddCourse(addCourseViewModel);
-            // if (addCategory)
-            //     return Json(new { success = true, message });
-            // else
-            //     return Json(new { success = false, message });
+            var (addCourse, message) = _courseService.AddCourse(addCourseViewModel);
+            if (addCourse)
+                return Json(new { success = true, message });
+            else
+                return Json(new { success = false, message });
 
-            return View();
         }
-        // else if (addCourseViewModel.Id > 0)
-        // {
-        //     bool (update, message) = _courseService.UpdateCourse(addCourseViewModel);
-        //     if (update)
-        //         return Json(new { success = true, message });
-        //     else
-        //         return Json(new { success = false, message });
-        // }
+        else if (addCourseViewModel.Id > 0)
+        {
+            var (update, message) = _courseService.UpdateCourse(addCourseViewModel);
+            if (update)
+                return Json(new { success = true, message });
+            else
+                return Json(new { success = false, message });
+        }
         else
         {
             return Json(new { success = false, message = "Invalid ID. It must be a positive integer!!" });
+        }
+    }
+    #endregion
+
+    #region DeleteCourse
+    [HttpPost]
+    public IActionResult DeleteCourse(int id)
+    {
+        Console.WriteLine("Incontroller" + id);
+        var (isDeleted, message) = _courseService.DeleteCourse(id);
+
+        if (!isDeleted)
+        {
+            return Json(new { success = false, message });
+        }
+        else
+        {
+            return Json(new { success = true, message });
         }
     }
     #endregion

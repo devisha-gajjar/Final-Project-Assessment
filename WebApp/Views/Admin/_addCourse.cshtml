@@ -12,7 +12,6 @@
         <div class="col-6">
             <div class="form-floating">
                 <select class="form-select" asp-for="DeptId" asp-items="Model.DepartmentList">
-                    <option value="Select Unit" selected disabled>Select Department</option>
                 </select>
                 <label asp-for="DeptId">Department*</label>
                 <span class="text-danger" asp-validation-for="DeptId"></span>
@@ -24,11 +23,11 @@
                 <label asp-for="Credit">Credit</label>
                 <span class="text-danger" asp-validation-for="Credit"></span>
             </div>
-        </div>
+        </div>  
     </div>
     <div class="form-floating my-3">
         <textarea class="form-control h-100" id="floatingInput" placeholder="" rows="5" asp-for="Content"></textarea>
-        <label asp-for="Content">Description</label>
+        <label asp-for="Content">Content</label>
         <span class="text-danger" asp-validation-for="Content"></span>
     </div>
 
@@ -38,3 +37,34 @@
     </div>
 </form>
 
+
+<script>
+    $('#courseModel').off('submit').on("submit", "#addCourseForm", function (e) {
+        e.preventDefault();
+        var formData = new FormData(this)
+
+        $.ajax({
+            url: '/Admin/AddEditCourse',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    $('#addCourse').modal('hide');
+                    toastr.success(response.message)
+                    loadCourses();
+                }
+                else if (response.success == false) {
+                    toastr.error(response.message);
+                }
+                else {
+                    $('#courseModel').html(response);
+                }
+            },
+            error: function (error) {
+                toastr.error('Your form was not sent successfully.');
+            }
+        });
+    });
+</script>

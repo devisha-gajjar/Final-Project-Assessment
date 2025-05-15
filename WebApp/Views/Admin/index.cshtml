@@ -45,6 +45,29 @@
 <!-- Modal for the ADD COURSE End-->
 
 
+<!-- Modal for the DELETE CATEGORY Start -->
+<div class="modal fade" id="deleteCourse" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel"> Delete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3">
+                <i class="fa-solid fa-triangle-exclamation color-warning"></i>
+                <span class="fw-bold">Are you sure you want to delete this course ?</span>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-fill px-3" id="deleteCourseBtn">YES</button>
+                <button type="button" class="btn btn-border px-3" data-bs-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for the DELETE CATEGORY End-->
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
@@ -57,7 +80,7 @@
         loadCourses();
     });
 
-    function loadCourses(id, searchTerm, sortOrder, page, pageSize) {
+    function loadCourses(searchTerm, sortOrder, page, pageSize) {
         $.ajax({
             url: `/Admin/GetCourses/`,
             type: "GET",
@@ -73,6 +96,64 @@
             error: function () {
                 $("#courseList").html("<div class='text-danger p-3'>Error loading courses.</div>");
             }
+        });
+    }
+
+    //Searching
+    $(document).on("keyup", "#searchBoxCourse", function () {
+        searchTerm = $(this).val();
+        loadCourses(searchTerm, sortOrder, page, pageSize);
+    });
+
+    // sorting 
+    $(document).on("click", ".sortable-column-course", function () {
+        var currentOrder = $(this).data('order');
+
+        if (currentOrder == "name_asc")
+            sortOrder = "name_desc"
+        else if (currentOrder == "name_desc")
+            sortOrder = "name_asc"
+        else if (currentOrder == "dpname_asc")
+            sortOrder = "dpname_desc"
+        else if (currentOrder == "dpname_desc")
+            sortOrder = "dpname_asc"
+
+        loadCourses(searchTerm, sortOrder, 1, pageSize);
+    });
+
+
+    // page size 
+    $(document).on("change", "#pageSizeSelectorCourse", function () {
+        pageSize = $(this).val();
+        loadCourses(searchTerm, sortOrder, 1, pageSize);
+    });
+
+    // page click
+    $(document).on("click", ".pagination-link-course", function () {
+        page = $(this).data("page");
+
+        loadCourses(searchTerm, sortOrder, page, pageSize);
+    });
+
+    function courseDelete(id) {
+        console.log("input view" + id)
+        $("#deleteCourseBtn").off('click').on("click", function (e) {
+            $.ajax({
+                url: `/Admin/DeleteCourse/${id}`,
+                type: "POST",
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                        return;
+                    }
+                    $('#deleteCourse').modal('hide');
+                    toastr.success(response.message)
+                    loadCourses();
+                },
+                error: function (xhr) {
+                    toastr.error(xhr.responseText);
+                }
+            });
         });
     }
 
