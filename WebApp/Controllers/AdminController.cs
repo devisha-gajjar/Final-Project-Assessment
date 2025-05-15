@@ -1,8 +1,6 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApp.Entities.Model;
 using WebApp.Entities.ViewModel;
 using WebApp.Service.Helper;
 using WebApp.Service.IService;
