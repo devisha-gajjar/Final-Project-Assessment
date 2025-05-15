@@ -296,7 +296,7 @@ public class CourseService : ICourseService
             PhoneNumber = user.PhoneNumber ?? "-",
             RegisterDate = user.CreatedOn,
             TotalCourse = courseList.Count,
-            TotalCredits = courseList.Sum(c => c.Course.Credit)
+            TotalCredits = courseList.Sum(c => c.Course.Credit),
         };
     }
     #endregion

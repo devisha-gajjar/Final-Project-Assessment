@@ -103,8 +103,11 @@
             url: "/Admin/GetCourse",
             type: "GET",
             data: { courseId },
-            dataType: "html",
             success: function (response) {
+                if (response.success == false) {
+                    toastr.error(response.message);
+                    return;
+                }
                 $('#courseModel').html(response);
             },
             error: function (error) {

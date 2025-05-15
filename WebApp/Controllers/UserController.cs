@@ -41,6 +41,11 @@ public class UserController : Controller
     #region EnrollCourse
     public IActionResult EnrollCourse(CourseListViewModel courseListViewModel)
     {
+        if (courseListViewModel.Id <= 0)
+        {
+            return Json(new { success = false, message = "Invalid ID. It must be a positive integer!!" });
+        }
+
         var (isEnroll, message) = _courseService.EnrollCourse(courseListViewModel);
         if (isEnroll)
         {
@@ -64,6 +69,11 @@ public class UserController : Controller
     #region CompleteCourse
     public IActionResult CompleteCourse(int id)
     {
+        if (id <= 0)
+        {
+            return Json(new { success = false, message = "Invalid ID. It must be a positive integer!!" });
+        }
+
         var (isCompleted, message) = _courseService.CompleteCourse(id);
 
         if (!isCompleted)

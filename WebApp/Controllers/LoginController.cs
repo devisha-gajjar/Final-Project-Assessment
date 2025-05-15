@@ -19,6 +19,19 @@ public class LoginController : Controller
 
     public IActionResult Index()
     {
+        string? token = Request.Cookies.ContainsKey("Token") ? Request.Cookies["Token"] : null;
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            string role = User.FindFirst(ClaimTypes.Role)?.Value!;
+
+            return role switch
+            {
+                "Admin" => RedirectToAction("index", "Admin"),
+                "User" => RedirectToAction("index", "User"),
+                _ => RedirectToAction("index", "Login")
+            };
+        }
         return View();
     }
 

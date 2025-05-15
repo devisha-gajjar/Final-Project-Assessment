@@ -8,6 +8,6 @@ public class UserViewModel
     public DateTime EnrollDate { get; set; }
     public DateTime RegisterDate { get; set; }
     public string PhoneNumber { get; set; }
-    public int TotalCourse { get; set; }
-    public int TotalCredits { get; set; }
+    public int TotalCourse { get; set; } = 0;
+    public int TotalCredits { get; set; } = 0;
 }

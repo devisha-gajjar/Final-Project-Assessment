@@ -97,7 +97,11 @@ public class AdminController : Controller
     [HttpPost]
     public IActionResult DeleteCourse(int id)
     {
-        Console.WriteLine("Incontroller" + id);
+        if (id <= 0)
+        {
+            return Json(new { success = false, message = "Invalid ID. It must be a positive integer!!" });
+        }
+
         var (isDeleted, message) = _courseService.DeleteCourse(id);
 
         if (!isDeleted)
