@@ -3,7 +3,172 @@
     Layout = "_Layout";
 }
 
-
 <div>
-    <h1>Welcome!! User</h1>
+    <div class="d-flex justify-content-between">
+        <h1 class="fw-bold color-blue">Welcome!! User</h1>
+        <button class=" d-flex justify-content-center align-items-center gap-2 btn btn-border fw-bold"
+            onclick="myCourse();"><i class="bi bi-text-indent-right"></i> My Courses</button>
+    </div>
 </div>
+<hr>
+
+<div class="card cards p-4">
+    <div class="d-flex gap-3 justify-content-between align-items-center">
+        <h3 id="courseHeading">Course Details</h3>
+        <div class="d-flex gap-3">
+            <div class="d-flex flex-end search">
+                <input class="search-input ms-md-4 fs-6" type="text" name="search" placeholder="Search"
+                    id="searchBoxCourse">
+                <i class="fa-solid fa-magnifying-glass fs-5"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="courseList">
+        @* course List Loaded here...  *@
+    </div>
+</div>
+</div>
+
+<!-- Modal for the ENROLL COURSE Start-->
+<div class="modal fade" id="enrollCourse">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold">Enroll Course
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3"
+                id="enrollCourseModel">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for the eNROLL COURSE End-->
+
+
+<!-- Modal for the COMPLETE COURSE Start -->
+<div class="modal fade" id="completeCourse" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel"> Complete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3">
+                <i class="fa-solid fa-triangle-exclamation color-warning"></i>
+                <span class="fw-bold">Are you sure you want to complete this course ?</span>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-fill px-3" id="completeCourseBtn">YES</button>
+                <button type="button" class="btn btn-border px-3" data-bs-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for the COMPLETE COURSE End-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    let sortOrder = "name_asc";
+    let searchTerm = null;
+    let page = 1;
+    let pageSize = 5;
+
+    $(document).ready(function () {
+        loadCourses();
+    });
+
+    function loadCourses(searchTerm, sortOrder, page, pageSize) {
+        $.ajax({
+            url: `/User/GetCourses/`,
+            type: "GET",
+            data: {
+                searchTerm: searchTerm,
+                sortOrder: sortOrder,
+                page: page,
+                pagesize: pageSize
+            },
+            success: function (data) {
+                $("#courseList").html(data);
+            },
+            error: function () {
+                $("#courseList").html("<div class='text-danger p-3'>Error loading courses.</div>");
+            }
+        });
+    }
+
+    //Searching
+    $(document).on("keyup", "#searchBoxCourse", function () {
+        searchTerm = $(this).val();
+        loadCourses(searchTerm, sortOrder, page, pageSize);
+    });
+
+    // sorting 
+    $(document).on("click", ".sortable-column-course", function () {
+        var currentOrder = $(this).data('order');
+
+        if (currentOrder == "name_asc")
+            sortOrder = "name_desc"
+        else if (currentOrder == "name_desc")
+            sortOrder = "name_asc"
+        else if (currentOrder == "dpname_asc")
+            sortOrder = "dpname_desc"
+        else if (currentOrder == "dpname_desc")
+            sortOrder = "dpname_asc"
+
+        loadCourses(searchTerm, sortOrder, 1, pageSize);
+    });
+
+
+    // page size 
+    $(document).on("change", "#pageSizeSelectorCourse", function () {
+        pageSize = $(this).val();
+        loadCourses(searchTerm, sortOrder, 1, pageSize);
+    });
+
+    // page click
+    $(document).on("click", ".pagination-link-course", function () {
+        page = $(this).data("page");
+
+        loadCourses(searchTerm, sortOrder, page, pageSize);
+    });
+
+    function myCourse() {
+        $.ajax({
+            url: `/User/MyCourses/`,
+            type: "GET",
+            success: function (data) {
+                $('.search').remove();
+                $('#courseHeading').remove();
+                $("#courseList").html(data);
+            },
+            error: function () {
+                $("#courseList").html("<div class='text-danger p-3'>Error loading courses.</div>");
+            }
+        });
+    }
+
+    function completeCourse(id) {
+        $("#completeCourseBtn").off('click').on("click", function (e) {
+            $.ajax({
+                url: `/User/CompleteCourse/${id}`,
+                type: "POST",
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                        return;
+                    }
+                    $('#completeCourse').modal('hide');
+                    toastr.success(response.message)
+                    loadCourses();
+                },
+                error: function (xhr) {
+                    toastr.error(xhr.responseText);
+                }
+            });
+        });
+    }
+</script>

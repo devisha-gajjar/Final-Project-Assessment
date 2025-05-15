@@ -94,9 +94,14 @@ body {
   min-width: 150px;
   max-width: 100%;
   white-space: nowrap;
+  text-wrap: wrap;
 }
 
 .color-warning {
   color: rgb(255, 187, 0);
   font-size: 40px;
+}
+
+.bi.bi-text-indent-right {
+  font-size: 25px;
 }

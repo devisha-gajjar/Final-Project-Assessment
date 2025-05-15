@@ -6,4 +6,5 @@ public class CourseListViewModel
     public string CourseName { get; set; }
     public string DepartmentName { get; set; }
     public int Credit { get; set; }
+    public string Content { get; set; }
 }

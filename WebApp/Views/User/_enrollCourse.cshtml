@@ -1,0 +1,76 @@
+@using WebApp.Entities.ViewModel;
+@model CourseListViewModel;
+
+<form class="w-100" id="enrollCourseForm">
+    <input type="hidden" asp-for="Id">
+    <table id="courseTable" class="table table-hover">
+        <tbody class="table-body-style">
+            <tr>
+                <td class="fw-bold w-25"><span>Id </span>
+                </td>
+                <td> <span>@Model.Id</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Name </span>
+                </td>
+                <td> <span>@Model.CourseName</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Department </span>
+                </td>
+                <td> <span>@Model.DepartmentName</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Credit </span>
+                </td>
+                <td> <span>@Model.Credit</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold w-25"><span>Content </span>
+                </td>
+                <td> <span>@Model.Content</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex gap-2 justify-content-end">
+        <button type="submit" class="btn btn-fill px-3">Enroll</button>
+        <button type="button" class="btn btn-border px-3" data-bs-dismiss="modal" id="resetBtn">Cancel</button>
+    </div>
+</form>
+
+
+<script>
+    $('#enrollCourseModel').off('submit').on("submit", "#enrollCourseForm", function (e) {
+        e.preventDefault();
+        var formData = new FormData(this)
+
+        $.ajax({
+            url: '/User/EnrollCourse',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    $('#enrollCourse').modal('hide');
+                    toastr.success(response.message)
+                    loadCourses();
+                }
+                else if (response.success == false) {
+                    toastr.error(response.message);
+                }
+                else {
+                    $('#enrollCourseModel').html(response);
+                }
+            },
+            error: function (error) {
+                toastr.error('Your form was not sent successfully.');
+            }
+        });
+    });
+</script>

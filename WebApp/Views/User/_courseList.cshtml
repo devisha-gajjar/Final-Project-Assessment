@@ -1,0 +1,108 @@
+@using WebApp.Entities.ViewModel;
+@using WebApp.Service.Helper;
+@model PaginatedList<CourseListViewModel>
+
+
+<div class="row p-4">
+    <div class="py-3 table-responsive">
+        <table id="courseTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>
+                        <label class="custom-control-label ms-4">Name</label>
+                        <button type="button" class="btn sortable-column-course p-0" data-order="@(Model.SortOrder == "name_asc" ? "name_asc" :
+                                "name_desc")">
+                            <i class=" fa-solid fa-sort"></i>
+                        </button>
+                    </th>
+                    <th><label class="custom-control-label">Department Name</label>
+                        <button type="button" class="btn sortable-column-course p-0"
+                            data-order="@(Model.SortOrder == "dpname_asc" ? "dpname_asc" : "dpname_desc")">
+                            <i class=" fa-solid fa-sort"></i>
+                        </button>
+                    </th>
+                    <th class="text-center">Credit</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-body-style">
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Id</td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <label class="custom-control-label ms-4">
+                                    <span>@course.CourseName</span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>@course.DepartmentName</td>
+                        <td class="text-center">@course.Credit</td>
+                        <td class="text-center">
+                            <button class="btn btn-fill" id="view-@course.Id" data-bs-target="#enrollCourse"
+                                data-bs-toggle="modal" onclick="enrollCourse(@course.Id);">View</button>
+                        </td>
+                    </tr>
+                }
+                @if (Model.TotalItems == 0)
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-danger">
+                            No Courses Available
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-end">
+        <div class="d-flex flex-sm-row flex-column gap-2">
+            <div class="d-flex align-items-center justify-content-end gap-2">
+                <span>Items Per Page</span>
+                <select id="pageSizeSelectorCourse" class="form-select w-auto">
+                    <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
+                    <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
+                    <option value="15" selected="@(Model.PageSize == 15 ? "selected" : null)">15</option>
+                    <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
+                </select>
+            </div>
+            @{
+                int startRecord = (Model.PageIndex - 1) * Model.PageSize + 1;
+                int endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalItems);
+            }
+
+            <div class="d-flex align-items-center gap-2">
+                <span>Showing @startRecord – @endRecord of @Model.TotalItems</span>
+
+                <!-- Previous Page Button -->
+                <i class="fa fa-less-than btn border-black p-2 px-3 pagination-link-course @(Model.HasPreviousPage ? "" : "disabled")"
+                    data-page="@(Model.PageIndex - 1)"></i>
+
+                <!-- Next Page Button -->
+                <i class="fa fa-greater-than btn border-black p-2 px-3 pagination-link-course @(Model.HasNextPage ? "" : "disabled")"
+                    data-page="@(Model.PageIndex + 1)"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function enrollCourse(id) {
+        $.ajax({
+            url: "/User/ViewCourse",
+            type: "GET",
+            data: { id },
+            dataType: "html",
+            success: function (response) {
+                $('#enrollCourseModel').html(response);
+            },
+            error: function (error) {
+                toastr.error(error);
+            }
+        });
+    }
+</script>

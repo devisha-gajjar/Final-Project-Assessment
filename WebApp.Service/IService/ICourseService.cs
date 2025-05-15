@@ -12,4 +12,8 @@ public interface ICourseService
     public AddCourseViewModel GetCourse(int courseId);
     public (bool isUpdate, string message) UpdateCourse(AddCourseViewModel addCourseViewModel);
     public (bool isDelete, string message) DeleteCourse(int id);
+    public CourseListViewModel ViewCourse(int courseId);
+    public (bool isEnroll, string message) EnrollCourse(CourseListViewModel courseListViewModel);
+    public List<CourseListViewModel> GetMyCourses();
+    public (bool IsCompleted, string message) CompleteCourse(int id);
 }

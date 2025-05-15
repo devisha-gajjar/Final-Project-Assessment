@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebApp.Entities.Model;
 using WebApp.Entities.ViewModel;
@@ -14,13 +15,15 @@ public class CourseService : ICourseService
 {
     private readonly IDepartmentRepository _departmentRepo;
     private readonly ICourseRepository _courseRepo;
+    private readonly IEnrollmentRepository _enrollRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo, IHttpContextAccessor httpContextAccessor)
+    public CourseService(IDepartmentRepository departmentRepo, ICourseRepository courseRepo, IHttpContextAccessor httpContextAccessor, IEnrollmentRepository enrollRepo)
     {
         _departmentRepo = departmentRepo;
         _courseRepo = courseRepo;
         _httpContextAccessor = httpContextAccessor;
+        _enrollRepo = enrollRepo;
     }
 
     #region GetAllCourses
@@ -163,16 +166,99 @@ public class CourseService : ICourseService
     {
         Course course = _courseRepo.GetById(id)!;
 
-        // if (table.Status == "Running" || table.Status == "Assigned")
-        // {
-        //     return (false, 0);
-        // }
+        bool isEnrolled = _enrollRepo.GetAll().Any(e => e.CourseId == id);
+
+        if (isEnrolled)
+        {
+            return (false, "Can't Delete.. Student are Enrolled!!");
+        }
 
         course.IsDeleted = true;
 
         _courseRepo.Update(course);
 
         return (true, "Course Deleted Succesfully!!");
+    }
+    #endregion
+
+    #region ViewCourse
+    public CourseListViewModel ViewCourse(int courseId)
+    {
+        Course course = _courseRepo.GetAll().Include(d => d.Department).FirstOrDefault(c => c.CourseId == courseId)!;
+
+        CourseListViewModel courseListViewModel = new()
+        {
+            Id = course.CourseId,
+            CourseName = course.CourseName,
+            Credit = course.Credit,
+            DepartmentName = course.Department.DepartmentName,
+            Content = course.Content,
+        };
+        return courseListViewModel;
+    }
+    #endregion
+
+    #region EnrollCourse
+    public (bool isEnroll, string message) EnrollCourse(CourseListViewModel courseListViewModel)
+    {
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        bool isAlreadyEnroll = _enrollRepo.GetAll().Any(e => e.UserId.ToString() == userId && e.CourseId == courseListViewModel.Id);
+
+        if (isAlreadyEnroll)
+        {
+            return (false, "You are alredy enrolled in this Course!!");
+        }
+        else
+        {
+            Enrollment enrollment = new()
+            {
+                UserId = int.Parse(userId),
+                CourseId = courseListViewModel.Id,
+                IsDeleted = false
+            };
+            _enrollRepo.Add(enrollment);
+            return (true, "You are successfully Enrolled!!");
+        }
+    }
+    #endregion
+
+    #region GetMyCourses
+    public List<CourseListViewModel> GetMyCourses()
+    {
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        List<Enrollment> courses = _enrollRepo.GetAll().Where(e => e.UserId.ToString() == userId && !e.IsDeleted)
+                                            .Include(e => e.Course)
+                                                .ThenInclude(e => e.Department).ToList();
+
+        return courses.Select(item => new CourseListViewModel
+        {
+            Id = item.CourseId,
+            CourseName = item.Course.CourseName,
+            Credit = item.Course.Credit,
+            DepartmentName = item.Course.Department.DepartmentName
+        }).ToList();
+    }
+    #endregion
+
+    #region CompleteCourse
+    public (bool IsCompleted, string message) CompleteCourse(int id)
+    {
+        string userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        Enrollment? enrollment = _enrollRepo.GetAll().FirstOrDefault(e => e.CourseId == id && e.UserId.ToString() == userId);
+
+        if (enrollment == null)
+        {
+            return (false, "No enrollment Found!!");
+        }
+        else
+        {
+            enrollment.IsDeleted = true;
+            _enrollRepo.Update(enrollment);
+            return (true, "Course Completed Successfully!!");
+        }
     }
     #endregion
 }
