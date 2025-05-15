@@ -9051,11 +9051,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\WebApp.Service.csproj",
+      "projectUniqueName": "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\WebApp.Service.csproj",
       "projectName": "WebApp.Service",
-      "projectPath": "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\WebApp.Service.csproj",
+      "projectPath": "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\WebApp.Service.csproj",
       "packagesPath": "C:\\Users\\pctr23\\.nuget\\packages\\",
-      "outputPath": "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\obj\\",
+      "outputPath": "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Service\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pctr23\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -9070,8 +9070,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Repositories\\WebApp.Repositories.csproj": {
-              "projectPath": "d:\\Devisha Gajjar\\FinalAssessment\\WebApp.Repositories\\WebApp.Repositories.csproj"
+            "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Repositories\\WebApp.Repositories.csproj": {
+              "projectPath": "D:\\Devisha Gajjar\\FinalAssessment\\WebApp.Repositories\\WebApp.Repositories.csproj"
             }
           }
         }

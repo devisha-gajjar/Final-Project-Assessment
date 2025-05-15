@@ -19,4 +19,6 @@ public class Course
     public DateTime ModifiedOn { get; set; }
     public string? ModifiedBy { get; set; }
 
+    public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+
 }

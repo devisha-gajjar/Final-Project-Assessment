@@ -18,6 +18,7 @@ public class WebAppFinalContext : DbContext
     public DbSet<Role> Role { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Department> Departments { get; set; }
+    public DbSet<Enrollment> Enrollments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -86,6 +87,27 @@ public class WebAppFinalContext : DbContext
         {
             entity.Property(e => e.DepartmentName)
                 .HasMaxLength(255);
+
+            entity.Property(e => e.CreatedOn)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_on");
+
+            entity.Property(e => e.ModifiedOn)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("modified_on");
+        });
+
+        modelBuilder.Entity<Enrollment>(entity =>
+        {
+            entity.HasOne(d => d.Course).WithMany(p => p.Enrollments)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("course_id_fkey");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Enrollments)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("user_id_fkey");
 
             entity.Property(e => e.CreatedOn)
                     .HasDefaultValueSql("CURRENT_TIMESTAMP")
